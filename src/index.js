@@ -54,7 +54,7 @@ app.post("/users", (request, response) => {
 
   users.push(user);
 
-  return response.status(201).json(users);
+  return response.status(201).json(user);
 });
 
 app.get("/todos", checksExistsUserAccount, (request, response) => {
@@ -69,15 +69,17 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   const { user } = request;
   const { title, deadline } = request.body;
 
-  user.todos.push({
+  const todo = {
     id: uuidv4(),
     title: title,
     done: false,
     deadline: new Date(deadline),
     created_at: new Date(),
-  });
+  };
 
-  return response.status(201).json(user.todos);
+  user.todos.push(todo);
+
+  return response.status(201).json(todo);
 });
 
 app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
